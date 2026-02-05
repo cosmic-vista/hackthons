@@ -63,6 +63,38 @@ This project specifically addresses the core challenges of modern marketplace ba
 | `/health` | `GET` | System uptime and connection status |
 
 ---
+##  How to Use Authentication
+
+To access **Private** endpoints (Create/Update/Delete Products), follow these steps:
+
+### **1. Get Your Token**
+- Open your browser and go to: `http://localhost:3000/auth/google` (or your Render URL).
+- Log in with your Google account.
+- You will receive a JSON response containing a `"token"`. **Copy this string.**
+
+### **2. Send Requests with the Token**
+For every request to a "Private" route, you must include the token in the **Authorization Header**.
+
+**Header Format:**
+- **Key:** `Authorization`
+- **Value:** `Bearer YOUR_JWT_TOKEN_HERE`
+
+### **3. Example (Using cURL)**
+```bash
+curl -X POST http://localhost:3000/api/v1/products \
+     -H "Authorization: Bearer YOUR_TOKEN" \
+     -H "Content-Type: application/json" \
+     -d '{
+           "name": "Fresh Organic Carrots",
+           "description": "Sweet and crunchy",
+           "price": 30,
+           "category": "Vegetables",
+           "stock": 50,
+           "location": "Pune"
+         }'
+```
+
+---
 
 ##  Installation & Setup
 
