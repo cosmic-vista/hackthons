@@ -36,10 +36,10 @@ class ProductService {
 
         // 4) Pagination
         const page = Math.max(Number(queryParams.page) || 1, 1);
-        const limit = Math.max(Number(queryParams.limit) || 20, 1);
-        const skip = (page - 1) * limit;
+        const limit = Math.max(Number(queryParams.limit));
+        const skip = limit ? (page - 1) * limit : 0;
 
-        const products = await productRepository.findAll(queryObj, skip, limit, sort);
+        const products = await productRepository.findAll(queryObj, skip, limit || 0, sort);
         const total = await productRepository.count(queryObj);
 
         return { products, total };
