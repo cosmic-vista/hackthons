@@ -1,11 +1,11 @@
-# 🚜 FarmLokal Backend
+#  hackthons Backend
 
 ### **Redefining the Agricultural Marketplace**
-FarmLokal is a production-ready, high-performance RESTful API designed to bridge the gap between farmers and consumers. Built with a focus on **scalability**, **reliability**, and **visual excellence** in architectural design.
+hackthons is a production-ready, high-performance RESTful API designed to bridge the gap between farmers and consumers. Built with a focus on **scalability**, **reliability**, and **visual excellence** in architectural design.
 
 ---
 
-## 🚀 Core Features & Implementation
+##  Core Features & Implementation
 
 This project specifically addresses the core challenges of modern marketplace backends:
 
@@ -31,7 +31,7 @@ This project specifically addresses the core challenges of modern marketplace ba
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 - **Runtime**: Node.js (ES Modules)
 - **Framework**: Express.js 5.0
 - **Database**: MongoDB Atlas (Aggregation & Indexing)
@@ -40,7 +40,7 @@ This project specifically addresses the core challenges of modern marketplace ba
 
 ---
 
-## 📍 API Reference
+##  API Reference
 
 ### **Authentication**
 | Endpoint | Method | Description |
@@ -64,7 +64,7 @@ This project specifically addresses the core challenges of modern marketplace ba
 
 ---
 
-## 🏗️ Installation & Setup
+##  Installation & Setup
 
 1. **Clone & Install**:
    ```bash
