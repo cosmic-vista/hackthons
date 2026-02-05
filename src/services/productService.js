@@ -4,34 +4,40 @@ import AppError from '../utils/AppError.js';
 
 class ProductService {
     async getAllProducts(queryParams) {
-        // filtering
+        // 1) Filtering
         const queryObj = { ...queryParams };
         const excludedFields = ['page', 'sort', 'limit', 'fields', 'search'];
         excludedFields.forEach(el => delete queryObj[el]);
 
-        // Advanced filtering
-        if (queryParams.minPrice || queryParams.maxPrice) {
+        // Advanced filtering (Price, etc.)
+        if (queryParams.minPrice !== undefined || queryParams.maxPrice !== undefined) {
             queryObj.price = {};
-            if (queryParams.minPrice) queryObj.price.$gte = queryParams.minPrice;
-            if (queryParams.maxPrice) queryObj.price.$lte = queryParams.maxPrice;
+            if (queryParams.minPrice !== undefined) queryObj.price.$gte = Number(queryParams.minPrice);
+            if (queryParams.maxPrice !== undefined) queryObj.price.$lte = Number(queryParams.maxPrice);
+
+            // Ensure we remove these from the final query if they weren't removed by excludedFields
             delete queryObj.minPrice;
             delete queryObj.maxPrice;
         }
 
-        // Text search
+        // 2) Text search
         if (queryParams.search) {
             queryObj.$text = { $search: queryParams.search };
         }
 
-        // Pagination & Sort
-        const page = queryParams.page * 1 || 1;
-        const limit = queryParams.limit * 1 || 20;
-        const skip = (page - 1) * limit;
-
-        let sort = '-createdAt';
+        // 3) Sorting
+        let sort = '-createdAt'; // Default sort
         if (queryParams.sort) {
             sort = queryParams.sort.split(',').join(' ');
+        } else if (queryParams.search) {
+            // Default to relevance score if searching and no sort provided
+            sort = { score: { $meta: 'textScore' } };
         }
+
+        // 4) Pagination
+        const page = Math.max(Number(queryParams.page) || 1, 1);
+        const limit = Math.max(Number(queryParams.limit) || 20, 1);
+        const skip = (page - 1) * limit;
 
         const products = await productRepository.findAll(queryObj, skip, limit, sort);
         const total = await productRepository.count(queryObj);

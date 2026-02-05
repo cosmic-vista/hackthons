@@ -4,6 +4,11 @@ class ProductRepository {
     async findAll(queryObj, skip, limit, sort) {
         let query = Product.find(queryObj);
 
+        // If sorting by text score, we need to include it in projection
+        if (sort && typeof sort === 'object' && sort.score) {
+            query = query.select({ score: { $meta: 'textScore' } });
+        }
+
         if (sort) {
             query = query.sort(sort);
         } else {
