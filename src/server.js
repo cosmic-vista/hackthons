@@ -32,7 +32,7 @@ app.use(express.json());
 app.get('/', (req, res) => {
     res.status(200).json({
         status: 'success',
-        message: 'Welcome to the Farmlok Backend API',
+        message: 'Welcome to the Backend API for more details please read the readme file ',
         endpoints: {
             auth: {
                 login: '/auth/google',
