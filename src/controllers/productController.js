@@ -1,12 +1,13 @@
-import Product from '../models/Product.js';
+import productService from '../services/productService.js';
 import AppError from '../utils/AppError.js';
 
 export const getAllProducts = async (req, res, next) => {
     try {
-        const products = await Product.find();
+        const { products, total } = await productService.getAllProducts(req.query);
         res.status(200).json({
             status: 'success',
             results: products.length,
+            total,
             data: products
         });
     } catch (err) {
@@ -16,9 +17,7 @@ export const getAllProducts = async (req, res, next) => {
 
 export const getProduct = async (req, res, next) => {
     try {
-        const product = await Product.findById(req.params.id);
-        if (!product) return next(new AppError('No product found with that ID', 404));
-
+        const product = await productService.getProduct(req.params.id);
         res.status(200).json({
             status: 'success',
             data: product
@@ -30,11 +29,7 @@ export const getProduct = async (req, res, next) => {
 
 export const createProduct = async (req, res, next) => {
     try {
-        const newProduct = await Product.create({
-            ...req.body,
-            createdBy: req.user._id
-        });
-
+        const newProduct = await productService.createProduct(req.body, req.user._id);
         res.status(201).json({
             status: 'success',
             data: newProduct
@@ -46,13 +41,7 @@ export const createProduct = async (req, res, next) => {
 
 export const updateProduct = async (req, res, next) => {
     try {
-        const product = await Product.findByIdAndUpdate(req.params.id, req.body, {
-            new: true,
-            runValidators: true
-        });
-
-        if (!product) return next(new AppError('No product found with that ID', 404));
-
+        const product = await productService.updateProduct(req.params.id, req.body);
         res.status(200).json({
             status: 'success',
             data: product
@@ -64,9 +53,7 @@ export const updateProduct = async (req, res, next) => {
 
 export const deleteProduct = async (req, res, next) => {
     try {
-        const product = await Product.findByIdAndDelete(req.params.id);
-        if (!product) return next(new AppError('No product found with that ID', 404));
-
+        await productService.deleteProduct(req.params.id);
         res.status(204).json({
             status: 'success',
             data: null
