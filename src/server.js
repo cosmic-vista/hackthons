@@ -29,6 +29,28 @@ app.use('/api', limiter);
 
 app.use(express.json());
 
+app.get('/', (req, res) => {
+    res.status(200).json({
+        status: 'success',
+        message: 'Welcome to the Farmlok Backend API',
+        endpoints: {
+            auth: {
+                login: '/auth/google',
+                me: '/auth/me'
+            },
+            products: {
+                all: '/api/v1/products',
+                single: '/api/v1/products/:id'
+            },
+            weather: {
+                search: '/api/v1/weather?city={cityName}'
+            },
+            system: {
+                health: '/health'
+            }
+        }
+    });
+});
 app.use('/auth', authRoutes);
 app.use('/api/v1/products', productRoutes);
 app.use('/api/v1/weather', weatherRoutes);
