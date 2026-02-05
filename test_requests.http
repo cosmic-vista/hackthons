@@ -1,0 +1,54 @@
+### Farmlok API Test Collection
+@baseUrl = http://localhost:3000
+@token = YOUR_TOKEN_HERE
+
+### 🏥 Health Check
+GET {{baseUrl}}/health
+
+---
+
+### 🔐 Authentication
+
+### 1. Get Me (Requires Token)
+GET {{baseUrl}}/auth/me
+Authorization: Bearer {{token}}
+
+---
+
+### 🛒 Products
+
+### 1. Get All Products (Default)
+GET {{baseUrl}}/api/v1/products
+
+### 2. Search Products
+GET {{baseUrl}}/api/v1/products?search=apple
+
+### 3. Filter by Category
+GET {{baseUrl}}/api/v1/products?category=Dairy
+
+### 4. Search and Sort by Price (Low to High)
+GET {{baseUrl}}/api/v1/products?category=Fruits&sort=price
+
+### 5. Filter by Price Range
+GET {{baseUrl}}/api/v1/products?minPrice=10&maxPrice=100&sort=-createdAt
+
+### 6. Create a Product (Requires Token)
+POST {{baseUrl}}/api/v1/products
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+    "name": "Test Product",
+    "description": "This is a test product",
+    "price": 99,
+    "category": "Organic",
+    "stock": 10,
+    "location": "Meerut"
+}
+
+---
+
+### 🌤️ Weather
+
+### 1. Get Weather by City
+GET {{baseUrl}}/api/v1/weather?city=Delhi
